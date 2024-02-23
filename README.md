@@ -2,15 +2,15 @@
 
 # Project Overview
 
-This project utilizes Computer Vision techniques to increase the quality and quantity of data collected in the conservation field. If successful, it will reduce the burden on developing countries to accurately document wildlife-related data, as well as aid in data collection for geographically challenging (such as the Arctic) or expansive areas (such as in a migration pattern from North America to South America). Further extensions of this project can focus on sorting species based on video data.
+This project utilizes Computer Vision techniques to increase the quality and quantity of data collected in the conservation field. If successful, it will reduce the burden on developing countries to accurately document wildlife-related data, as well as aid in data collection for geographically challenging or expansive areas (for example: a migration pattern from North America to South America).
 
 The project will attempt to find a solution to the following: 
 
-"How might we use Machine Learning to increase the accuracy of bird species classification based on images"
+"How might we use Computer Vision to increase the accuracy of bird species classification based on images?"
 
 Computer Vision (CV) is a field of artificial intelligence that trains computers to interpret and understand the visual world. A properly trained model can accurately identify and classify large quantities of images. 
 
-This has many positive implications for CV in the wildlife conservation field, such as helping researchers to:
+CV has many applications in the wildlife conservation field, such as helping researchers to:
 * gather data effectively on population and geographical distribution of species
 * track migratory patterns and impacts of ecological changes
 * study behaviour collectively and make strategies to conserve species
@@ -24,17 +24,16 @@ Some [background information](https://www.allaboutcircuits.com/technical-article
 
 A 2022 [study](https://news.cornell.edu/stories/2022/05/global-bird-populations-steadily-decline) revealed that 48% of existing bird species worldwide are known or suspected to be undergoing population declines. Populations are only stable for 39% of species. Only 6% are showing increasing population trends, and the status of 7% is still unknown. Birds are important ecological indicators that are critical to many environmental monitoring schemes, bidiversity assessments and conservation decision-making.
 
-Common reasons for the decline in bird populations include agricultural activity, urban development, natural resource extraction, chemical pesticides, and industrial contaminants.  Loss of bird habitat affects both terrestrial and aquatic environments, including marine areas. 
+Common reasons for the decline in bird populations include agricultural activity, urban development, natural resource extraction, chemical pesticides, and industrial contaminants. Loss of bird habitat affects both terrestrial and aquatic environments, including marine areas. 
 
 According to conservation scientists, [current data collection approaches are not adequate](https://sekercioglu.biology.utah.edu/PDFs/2020%20Monitoring%20the%20world's%20bird%20population%20with%20community%20science%20data.pdf) for monitoring species across geographic ranges can be difficult and resource intensive, and rely too heavily on community data, which may be lacking in both data quantity and quality. 
 
-In a few countries, birds are monitored using government-coordinated surveys that produce reliable national-level population trends. However, formal surveys such as these are often lacking in developing nations due to the resources required. This is especially concerning because these regions harbor the majority of the world's bird species. 
-
+In a few countries, birds are monitored using government-coordinated surveys that produce reliable national-level population trends. However, formal surveys such as these are often expensive, infrequent, not comprehensive, and don't capture the seasonal habits of species. Further, formal surveys may be lacking in developing nations due to the resources required. This is especially concerning because these regions harbor the majority of the world's bird species. 
 
 
 ## Data set
 
-This project uses this [dataset](https://www.kaggle.com/datasets/gpiosenka/100-bird-species), which consists of 84635 training images, 2625 test images, and 2625 validation images across 525 bird species. There are no null or duplicate values. The images were cropped so that the bird in most cases occupies at least 50% of the pixel in the image. Then the images were resized to 224 X 224 X3 in jpg format. Each species has at least 130 training images, with some species having more.
+This project uses this [dataset](https://www.kaggle.com/datasets/gpiosenka/100-bird-species), which consists of 84635 training images, 2625 test images, and 2625 validation images across 525 bird species. There are no null or duplicate values. The images were cropped so that the bird in most cases occupies at least 50% of the pixel in the image, then resized to 224 X 224 X3 in jpg format. Each species has at least 130 training images.
 
 ## Data Dictionary
 
@@ -78,7 +77,6 @@ pip install opencv-python
 ```
 
 It also requires the following dependencies and imports
-
 `````````
 import numpy as np
 import pandas as pd
