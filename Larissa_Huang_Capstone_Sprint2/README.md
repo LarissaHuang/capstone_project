@@ -143,9 +143,8 @@ Based on this new feature, I restructured my image folders as well, creating new
 
 My project direction will align with the following steps. Due the pre-split nature of my data, I didn't need to split train, valid and test data. 
 
-<div style="background-color: white; padding: 10px;">
-<img src="project_roadmap_white.jpg" alt="project roadmap flowchart">
-</div>
+<img style="background-color: white; padding: 10px;" src="project_roadmap.svg" alt="project roadmap flowchart">
+
 ## Project Progression
 
 So far, I have completed the Data Collection, Data Cleaning and EDA, Feature Engineering, and my selected Base Model: CNN without Transfer Learning. I have determined this
