@@ -154,7 +154,7 @@ My project direction will align with the following steps. Due the pre-split natu
 Using the python library `rembg`, I removed the backgrounds from the images 
 
 <div style="background-color: white; padding: 10px;">
-<img src="README-images/project_roadmap_white.jpg" alt="project roadmap flowchart">
+<img src="README-images/image-background-removal.png" alt="project roadmap flowchart">
 </div>
 
 ## Project Progression
