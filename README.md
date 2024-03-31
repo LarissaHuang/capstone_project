@@ -96,18 +96,26 @@ conda install scikit-learn=0.24.1 nltk
 
 * This project requires opencv-python to run
 ```
-pip install opencv-python
+conda install opencv-python
 ```
+
+* This project requires Pillow for image display
+```
+conda install Pillow
+```
+
+* This project requires rembg for background removal
+```
+conda install rembg
+```
+
 ## Project Organization
 
-At the root of this folder, I will have the original ```train```, ```valid```, and ```test``` data sets, as well as the new folders I've created in my feature engineering. I will have the original ```birds.csv``` and in future iterations, I will save versions of my dataframes as their own csv files at the end of each checkpoint (Cleaning & EDA, Feature Engineering, etc.)
-
-Within this repository, each Sprint will have its own folder, wherein a Jupyter Notebook and Google Slides presentation pertaining to that sprint will be found.
-
+At the root of this folder, I will have the original ```train```, ```valid```, and ```test``` data sets, as well as the new folders I've created in my feature engineering. I will have the original ```birds.csv``` . 
 
 ## Data Restructuring
 
-In order to have more images for each class, I decided to merge species of the same genus into one category (see details in Sprint 2 Jupyter Notebook), using genus as the category. This way, I have more data per category. To retain a high quantity of training images, I will drop all genera with fewer than 1000 training images, using only DUCK, WARBLER, PHEASANT, KINGFISHER, and EAGLE for the first iteration of my CNN. Even with this genus classification, I only had 1501 training images for DUCK, the genus with the most images. This is a challenge I will address in my later steps. 
+In order to have more images for each class, I decided to merge species of the same genus into one category. This way, I have more data per category. To retain a high quantity of training images, I will drop all genera with fewer than 1200 training images, using only DUCK, WARBLER, PHEASANT, and KINGFISHER. 
 
 <table>
   <tr>
@@ -129,11 +137,6 @@ In order to have more images for each class, I decided to merge species of the s
     <tr>
     <td style="text-align: left"><code>KINGFISHER</code></td>
     <td style="text-align: left">1298</td>
-  </tr>
-    <tr>
-    <td style="text-align: left"><code>EAGLE</code></td>
-    <td style="text-align: left">1179</td>
-  </tr>
 </table>
 
 Based on this new feature, I restructured my image folders as well, creating new folders for ```train-genus```, ```valid-genus```, and ```test-genus```, for the species' image folder to live inside. 
@@ -144,27 +147,73 @@ Based on this new feature, I restructured my image folders as well, creating new
 My project direction will align with the following steps. Due the pre-split nature of my data, I didn't need to split train, valid and test data. 
 
 <div style="background-color: white; padding: 10px;">
-<img src="project_roadmap_white.jpg" alt="project roadmap flowchart">
+<img src="README-images/project_roadmap_white.jpg" alt="project roadmap flowchart">
 </div>
+
+## Data cleaning 
+Using the python library `rembg`, I removed the backgrounds from the images 
+
+<div style="background-color: white; padding: 10px;">
+<img src="README-images/project_roadmap_white.jpg" alt="project roadmap flowchart">
+</div>
+
 ## Project Progression
 
-So far, I have completed the Data Collection, Data Cleaning and EDA, Feature Engineering, and my selected Base Model: CNN without Transfer Learning. I have determined this
-will be a classification problem, classifying bird images into 1 of 5 genera: 
+I have completed the Data Collection, Data Cleaning and EDA, Feature Engineering, and my selected Base Model: CNN without Transfer Learning. I have determined this will be a classification problem. First, as a proof of concept, I classified bird images into 1 of 4 genera using a base CNN model: 
 
 - DUCK
 - WARBLER
 - KINGFISHER
 - PHEASANT
-- EAGLE
 
-I have performed an Model Evaluation on the Base Model on the first iteration and found that the accuracy was 30%, which is higher than random chance, which would have been 20% with 5 categories. 
+Using ImageDataGenerator, I have performed data augmentation which did the following transformations on my data to increase the sample size that my model can learn from: 
 
-I have determined this is due to my image counts still being too small to train a model, so my next steps will be:
+- scale pixel values to between 0 and 1 
+- rotate images 
+- shift images off-center 
+- slant images 
+- zoom in or out 
+- flip images horizontally 
 
-- Data Augmentation
-- Denoising and other image preprocessing steps
-- Optimizing hyperparameters such as batch size and epochs and image data generator parameters like rotation, shear, and zoom and horizontal flip
-- Implement Transfer Learning using a pre-trained CNN like EfficientNet 
+My base CNN Mode's accuracy was 87.6%. 
+
+Next, I will implement Transfer Learning using the following pre-trained CNNs: 
+
+- ResNet50
+- EfficientNetB7
+
+After optimizing hyperparameters such as batch size and epochs, 
+
+## Model Scores
+TODO: rewrite
+
+Training accuracy, weighted recall, weighted precision, and weighted F1 
+
+Test scores
+Among all training images, the model had the hardest time classifying _________
+
+Recall score 
+F1 score
+Most frequently mistook ___ for ____ 
+
+## Streamlit App 
+
+ TODO: rewrite 
+ I created a publically hosted application using Streamlit to showcase this project. Users can select from any of the images I used for testing and see how the model would classify it.
+
+## Learnings
+
+## Conclusions
+Saliency map
+
+## Next steps
+Implement an image upload field for user to upload their own bird image, with rescaling UI for model ingestion. 
+
+Compare grayscale vs colour
+
+Compare no backgrounw with background 
+
+
 
 
 ## Author
