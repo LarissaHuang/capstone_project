@@ -10,10 +10,11 @@ The project will attempt to find a solution to the following:
 
 Computer Vision (CV) is a field of artificial intelligence that trains computers to interpret and understand the visual world. A properly trained model can accurately identify and classify large quantities of images. 
 
-CV has many applications in the wildlife conservation field, such as helping researchers to:
-* gather data effectively on population and geographical distribution of species
-* track migratory patterns and impacts of ecological changes
-* study behaviour collectively and make strategies to conserve species
+Computer Vision enables machines to interpret visual information akin to human sight. A well-trained CV model can efficiently categorize a vast array of images, proving invaluable in ecological research by facilitating:
+
+Efficient data accumulation on species distribution and population.
+Monitoring of migratory routes and environmental impact assessments.
+Collective behavioral analysis for conservation strategy development.
 
 [Source](https://aiworldschool.com/research/this-is-why-ai-in-wildlife-conservation-is-so-glorious/)
 
@@ -159,7 +160,7 @@ Using the python library `rembg`, I removed the backgrounds from the images
 
 ## Project Progression
 
-I have completed the Data Collection, Data Cleaning and EDA, Feature Engineering, and my selected Base Model: CNN without Transfer Learning. I have determined this will be a classification problem. First, as a proof of concept, I classified bird images into 1 of 4 genera using a base CNN model: 
+I have completed the Data Collection, Data Cleaning and EDA, Feature Engineering, and my selected Base Model: CNN without Transfer Learning. First, as a proof of concept, I classified bird images into 1 of 4 genera using a base CNN model: 
 
 - DUCK
 - WARBLER
@@ -175,45 +176,20 @@ Using ImageDataGenerator, I have performed data augmentation which did the follo
 - zoom in or out 
 - flip images horizontally 
 
-My base CNN Mode's accuracy was 87.6%. 
-
-Next, I will implement Transfer Learning using the following pre-trained CNNs: 
-
-- ResNet50
-- EfficientNetB7
-
-After optimizing hyperparameters such as batch size and epochs, 
-
-## Model Scores
-TODO: rewrite
-
-Training accuracy, weighted recall, weighted precision, and weighted F1 
-
-Test scores
-Among all training images, the model had the hardest time classifying _________
-
-Recall score 
-F1 score
-Most frequently mistook ___ for ____ 
+# Model Evaluation 
+My base CNN Mode's accuracy was 83.5%. My model predicted Ducks accurately 82% of the time, Kingfishers 90% of the tme, Pheasants 75% of the time, and Warblers 87% of the time. Limitations of the dataset are male/female species characteristics variability and class imbalance and juvenile/adult variability in physical characteristics.
 
 ## Streamlit App 
+ I deployed a simple app on Streamlit where users can upload any bird image belonging to my 4 specified classes to get a the model's prediction. 
 
- TODO: rewrite 
- I created a publically hosted application using Streamlit to showcase this project. Users can select from any of the images I used for testing and see how the model would classify it.
+ https://duck-duck-choose.streamlit.app/
+
+
+ ## Next Steps
+Next, I will implement Transfer Learning using weights from a pre-trained CNNs such as EfficientNetB0. With a pre-trained model, my goal is to be able to include more genuses and species. I would also like to host my train, test, and valid images on S3 and load them into the Streamlit app so users can select the image they want to classify. Then, the app can give more information such as saliency map, confidence percentage, the model's second or third choices for classification. I would also like to compare accuracy scores when passing in grayscale images vs colour, and transparent no-background images vs. images with backgrounds. 
 
 ## Learnings
-
-## Conclusions
-Saliency map
-
-## Next steps
-Implement an image upload field for user to upload their own bird image, with rescaling UI for model ingestion. 
-
-Compare grayscale vs colour
-
-Compare no backgrounw with background 
-
-
+My biggest challenges with this project was memory and RAM usage. To continue working on it, I will dedicate more time to learning how to use Cloud-based solutions to train large mdels. 
 
 
 ## Author
