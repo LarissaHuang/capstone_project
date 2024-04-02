@@ -1,5 +1,11 @@
 # Duck Duck Choose: Pecking at Pixels with Machine Learning
 
+### Streamlit App: 
+
+Bird classification into 4 genuses using simplified CNN base model: 
+
+https://duck-duck-choose.streamlit.app/
+
 # Project Overview
 
 This project utilizes Computer Vision techniques to increase the quality and quantity of data collected in the conservation field. If successful, it will reduce the burden on developing countries to accurately document wildlife-related data, as well as aid in data collection for geographically challenging or expansive areas (for example: a migration pattern from North America to South America).
