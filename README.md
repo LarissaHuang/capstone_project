@@ -175,14 +175,14 @@ Using ImageDataGenerator, I have performed data augmentation which did the follo
 In my transfer model training, I replaced these manual transforms with `tf.keras.applications.efficientnet.preprocess_input` as the preprocessing function for input into a customized EfficientNetB0 model.
 
 # Base Model Evaluation 
-My base CNN Mode's accuracy was 87%. My model predicted Ducks accurately 76% of the time, Kingfishers 90% of the tme, Pheasants 90% of the time, and Warblers 93% of the time. Limitations of the dataset are male/female species characteristics variability and class imbalance and juvenile/adult variability in physical characteristics.
+My base CNN Mode's accuracy was 87%. My model predicted Ducks accurately 76% of the time, Kingfishers 90% of the time, Pheasants 90% of the time, and Warblers 93% of the time. Limitations of the dataset are male/female species characteristics variability and class imbalance and juvenile/adult variability in physical characteristics.
 
 # Base Model Confusion Matrix
 <div style="background-color: white; padding: 10px;">
 <img src="README-images/base-model-confusion-matrix.png" alt="base model confusion matrix">
 </div>
 
-The base CNN model does the best at predicting Warblers and the worst at predicting Ducks.
+The base CNN model does the best at predicting Warblers and the worst at predicting Ducks, perhaps due to the larger intra-genus image variability of ducks.
 
 # Base Model Incorrect Predictions
 <div style="background-color: white; padding: 10px;">
