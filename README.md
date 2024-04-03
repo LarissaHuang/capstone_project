@@ -179,7 +179,7 @@ My base CNN Mode's accuracy was 87%. My model predicted Ducks accurately 76% of 
 
 # Base Model Confusion Matrix
 <div style="background-color: white; padding: 10px;">
-<img src="README-images/base-model-confusion-matrix.jpg" alt="base model confusion matrix">
+<img src="README-images/base-model-confusion-matrix.png" alt="base model confusion matrix">
 </div>
 
 The base CNN model does the best at predicting Warblers and the worst at predicting Ducks.
