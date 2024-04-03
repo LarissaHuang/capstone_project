@@ -2,7 +2,7 @@
 
 ### Streamlit App: 
 
-Bird classification into 4 genuses using simplified CNN base model: 
+Classifying birds into 4 genuses using a CNN model: 
 
 https://duck-duck-choose.streamlit.app/
 
@@ -86,19 +86,14 @@ The data is pre-split into test, valid and train, so I didn't need to do my own 
 conda install numpy=1.19.2 pandas=1.3.5 matplotlib jupyter 
 ```
 
-* Mac users should install Tensorflow 2.7.0: 
+* Users should install Tensorflow 2.13.0: 
 ```
-conda install -c conda-forge tensorflow=2.7.0
-```
-
-* Windows users should install Tensorflow 2.3.0: 
-```
-conda install -c conda-forge tensorflow=2.3.0
+conda install -c conda-forge tensorflow=2.13.0
 ```
 
 * Install SciKit Learn: 
 ```
-conda install scikit-learn=0.24.1 nltk
+conda install scikit-learn=0.24.1 
 ```
 
 * This project requires opencv-python to run
@@ -120,9 +115,10 @@ conda install rembg
 
 At the root of this folder, I will have the original ```train```, ```valid```, and ```test``` data sets, as well as the new folders I've created in my feature engineering. I will have the original ```birds.csv``` . 
 
-## Data Restructuring
 
-In order to have more images for each class, I decided to merge species of the same genus into one category. This way, I have more data per category. To retain a high quantity of training images, I will drop all genera with fewer than 1200 training images, using only DUCK, WARBLER, PHEASANT, and KINGFISHER. 
+## CNN Base Model with 4 Genuses
+### Data Restructuring
+For a simple proof of concept, I decided to simplify my dataset by merging species into genus and constrain my dataset to only 4 genuses with fewer than 1200 training images, using only DUCK, WARBLER, PHEASANT, and KINGFISHER. 
 
 <table>
   <tr>
@@ -146,64 +142,132 @@ In order to have more images for each class, I decided to merge species of the s
     <td style="text-align: left">1298</td>
 </table>
 
-Based on this new feature, I restructured my image folders as well, creating new folders for ```train-genus```, ```valid-genus```, and ```test-genus```, for the species' image folder to live inside. 
+I restructured my image folders as well, creating new folders for ```train-genus```, ```valid-genus```, and ```test-genus```, for the species' image folder to live inside. 
 
 
 ## Project Flowchart
-
 My project direction will align with the following steps. Due the pre-split nature of my data, I didn't need to split train, valid and test data. 
 
 <div style="background-color: white; padding: 10px;">
 <img src="README-images/project_roadmap_white.jpg" alt="project roadmap flowchart">
 </div>
 
-## Data cleaning 
+## Data Cleaning 
 Using the python library `rembg`, I removed the backgrounds from the images 
 
 <div style="background-color: white; padding: 10px;">
 <img src="README-images/image-background-removal.png" alt="project roadmap flowchart">
 </div>
 
-## Project Progression
-
-I have completed the Data Collection, Data Cleaning and EDA, Feature Engineering, and my selected Base Model: CNN without Transfer Learning. First, as a proof of concept, I classified bird images into 1 of 4 genera using a base CNN model: 
-
-- DUCK
-- WARBLER
-- KINGFISHER
-- PHEASANT
-
+## Data Augmentation
 Using ImageDataGenerator, I have performed data augmentation which did the following transformations on my data to increase the sample size that my model can learn from: 
 
-- scale pixel values to between 0 and 1 
-- rotate images 
-- shift images off-center 
-- slant images 
-- zoom in or out 
-- flip images horizontally 
+``` 
+    rotation_range=40,    # Rotate the images up to 40 degrees
+    width_shift_range=0.2, # Shift the images horizontally by up to 20%
+    height_shift_range=0.2,# Shift the images vertically by up to 20%
+    shear_range=0.2,      # Shear transformation
+    zoom_range=0.2,       # Zoom in/out
+    horizontal_flip=True, # Allow horizontal flipping
+    fill_mode='nearest'   # Strategy for filling in newly created pixels
 
-# Model Evaluation 
-My base CNN Mode's accuracy was 83.5%. My model predicted Ducks accurately 82% of the time, Kingfishers 90% of the tme, Pheasants 75% of the time, and Warblers 87% of the time. Limitations of the dataset are male/female species characteristics variability and class imbalance and juvenile/adult variability in physical characteristics.
+```
+In my transfer model training, I replaced these manual transforms with `tf.keras.applications.efficientnet.preprocess_input` as the preprocessing function for input into a customized EfficientNetB0 model.
 
-## Streamlit App 
- I deployed a simple app on Streamlit where users can upload any bird image belonging to my 4 specified classes to get a the model's prediction. 
+# Base Model Evaluation 
+My base CNN Mode's accuracy was 87%. My model predicted Ducks accurately 76% of the time, Kingfishers 90% of the tme, Pheasants 90% of the time, and Warblers 93% of the time. Limitations of the dataset are male/female species characteristics variability and class imbalance and juvenile/adult variability in physical characteristics.
+
+# Base Model Confusion Matrix
+<div style="background-color: white; padding: 10px;">
+<img src="README-images/base-model-confusion-matrix.jpg" alt="base model confusion matrix">
+</div>
+
+The base CNN model does the best at predicting Warblers and the worst at predicting Ducks.
+
+# Base Model Incorrect Predictions
+<div style="background-color: white; padding: 10px;">
+<img src="README-images/base-model-incorrect-predictions.png" alt="Base Model Incorrect Predictions">
+</div>
+
+
+ # Base Model Conclusion
+ The base model is incorrectly predicting images based on the predicted species having similar colour, size, and pattern to the true species. The model may be too simple for this classification task, so I want to compare its results to a more sophisticated pretrained model.
+
+ ## Streamlit App 
+ I deployed a simple app on Streamlit where users can upload any bird image belonging to the 4 specified genus classes to get the model's prediction. 
 
  https://duck-duck-choose.streamlit.app/
 
 
+## Transfer Learning with EfficientNetB0
+To improve my model and to widen the scope to include all 525 species in my data set, I decided to implement transfer learning with a pre-trained CNN. I chose EfficientNetB0 because of its high accuracy and relatively small size. After importing `EfficientNetB0` from tensorflow.keras.appplications, I applied the following arguments: 
+
+```weights='imagenet' ```
+Using pre-trained weights allows the model to leverage knowledge gained from a large and diverse dataset, which can improve performance on my classification task. 
+
+```pooling='max'```
+After the final convolutional layer, a global max pooling operation is applied, which takes the maximum value over the entire feature map for each channel. This reduces the output to a fixed-size vector, making it easier to connect to subsequent dense layers, regardless of the input image size.
+
+```include_top='False'```
+This excludes the top (fully connected) layers of the model. The top layers are specific to the original classification task (1,000 classes from ImageNet). By setting include_top=False, I can add custom layers tailored to my specific problem. 
+
+```input_shape=(height, width, channels)```
+This specifies the dimensions of the input images the model should expect. This is necessary because `include_top=False` removes the original input layer, and a new input shape must be defined. The variables height, width, and channels should are set according to the size of my input images.
+
+I performed data augmentation and preprocessed images for EfficientNetB0 with a preprocessing_function in my ImageDataGenerator.
+
+```preprocessing_function=tf.keras.applications.efficientnet.preprocess_input```
+
+I froze all the layers of the model, so that during backprop, the weights will not be updated. 
+
+```
+for layer in eff_model.layers:
+  layer.trainable = False 
+```
+
+Then, I added custom Dense or fully-connected layers to tailor the model for my dataset.
+
+```
+x = eff_model.output # Gets the output from the pre-trained eff_model, which will be passed as input to the next layers
+x = Dense(1024, activation='relu')(x) # Dense layer added here, with 1024 neurons to the model
+x = Dropout(0.3)(x)  # Dropout layer added here, with a dropout rate of 0.3
+output = Dense(525, activation='softmax')(x)  # Final dense layer with units for output
+
+```
+
+The activation='softmax' argument specifies that the softmax activation function should be used. Softmax is ideal for the final layer of a multi-class classification model because it converts the model's output scores into probabilities for each class.
+
+Finally, I created my custom model with the code below:
+
+```
+eff_model = Model(inputs=eff_model.input, outputs=output)
+```
+
+`inputs=eff_model.input` specifies that the custom model should use the same input layer as the pre-trained EfficientNetB0 model, meaning that the custom model expects the same kind of input data as the pre-trained model.
+
+`outputs=output` defines the output of the new model to be from the last layer I added in my model customization, which is the final dense layer with 525 with a neurons, one for each class in my classification task of 525 species. 
+
+By doing this, I've created a custom model that combines the feature extraction capabilities of the pre-trained model with the custom layers of my specific classification task. 
+
+
+## Transfer Learning Accuracy
+My transfer learning model accuracy was 83%, which is not as good as my base CNN model. In addition, the test accuracy was about 30% higher than train accuracy, which indicates the model is overfitting to training data. 
+
+
  ## Next Steps
-Next, I will implement Transfer Learning using weights from a pre-trained CNNs such as EfficientNetB0. With a pre-trained model, my goal is to be able to include more genuses and species. I would also like to host my train, test, and valid images on S3 and load them into the Streamlit app so users can select the image they want to classify. Then, the app can give more information such as saliency map, confidence percentage, the model's second or third choices for classification. I would also like to compare accuracy scores when passing in grayscale images vs colour, and transparent no-background images vs. images with backgrounds. 
+To optimize my transfer learning model and reduce overfitting, I will add regularization, do more hyperparameter tuning, use cross-validation, and use emsemble methods. I would also like to compare accuracy scores when passing in grayscale images vs colour, and transparent no-background images vs. images with backgrounds. Once the model is optimized, I'd like to load it into my web app.
+
+For the web app, I'd like to provide more feedback on classification result on my Streamlit app, such as the model's second or third choices for classification.  I would also like to download the necessary prerequisits to use tensorflow-gpu for model training. 
+
 
 ## Learnings
-My biggest challenges with this project was memory and RAM usage. To continue working on it, I will dedicate more time to learning how to use Cloud-based solutions to train large mdels. 
+I have gained experience in various aspects, such as feature engineering for datasets with multiple classes, implementing data augmentation techniques, encoding images as arrays for comparison with average RGB histograms, preprocessing images for transfer learning, analyzing confusion matrices, optimizing transfer learning models, as well as saving and loading models for integration into web applications and deployment.
 
 
 ## Author
-
 Larissa Huang
 
 
 ## Acknowledgments
-
 Inspiration, code snippets, etc.
 * [Medium article by Raghunath D about OpenCV image histograms](https://medium.com/@rndayala/image-histograms-in-opencv-40ee5969a3b7)
