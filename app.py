@@ -142,7 +142,7 @@ def main():
        
     st.subheader("Upload your image:") 
     #upload own image
-    file_uploaded = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
+    file_uploaded = st.file_uploader("When uploading an image, keep in the mind that the model will be much more accurate in predicting the 75 species it was trained on.", type=["png", "jpg", "jpeg"])
     if file_uploaded is not None:
         _image = Image.open(file_uploaded)
         st.image(_image, caption='Uploaded Image', use_column_width=True)
