@@ -2,7 +2,7 @@
 
 ### Streamlit App: 
 
-Classifying birds into 4 genuses using a CNN model: 
+Classifying birds into 75 species using a CNN transfer-learning model: 
 
 https://duck-duck-choose.streamlit.app/
 
@@ -193,14 +193,9 @@ The base CNN model does the best at predicting Warblers and the worst at predict
  # Base Model Conclusion
  The base model is incorrectly predicting images based on the predicted species having similar colour, size, and pattern to the true species. The model may be too simple for this classification task, so I want to compare its results to a more sophisticated pretrained model.
 
- ## Streamlit App 
- I deployed a simple app on Streamlit where users can upload any bird image belonging to the 4 specified genus classes to get the model's prediction. 
-
- https://duck-duck-choose.streamlit.app/
-
 
 ## Transfer Learning with EfficientNetB0
-To improve my model and to widen the scope to include all 525 species in my data set, I decided to implement transfer learning with a pre-trained CNN. I chose EfficientNetB0 because of its high accuracy and relatively small size. After importing `EfficientNetB0` from tensorflow.keras.appplications, I applied the following arguments: 
+To improve my model and to widen the scope to include 75 species in my data set, I decided to implement transfer learning with a pre-trained CNN. I chose EfficientNetB0 because of its high accuracy and relatively small size. After importing `EfficientNetB0` from tensorflow.keras.appplications, I applied the following arguments: 
 
 ```weights='imagenet' ```
 Using pre-trained weights allows the model to leverage knowledge gained from a large and diverse dataset, which can improve performance on my classification task. 
@@ -231,7 +226,7 @@ Then, I added custom Dense or fully-connected layers to tailor the model for my 
 x = eff_model.output # Gets the output from the pre-trained eff_model, which will be passed as input to the next layers
 x = Dense(1024, activation='relu')(x) # Dense layer added here, with 1024 neurons to the model
 x = Dropout(0.3)(x)  # Dropout layer added here, with a dropout rate of 0.3
-output = Dense(525, activation='softmax')(x)  # Final dense layer with units for output
+output = Dense(75, activation='softmax')(x)  # Final dense layer with units for output
 
 ```
 
@@ -245,19 +240,19 @@ eff_model = Model(inputs=eff_model.input, outputs=output)
 
 `inputs=eff_model.input` specifies that the custom model should use the same input layer as the pre-trained EfficientNetB0 model, meaning that the custom model expects the same kind of input data as the pre-trained model.
 
-`outputs=output` defines the output of the new model to be from the last layer I added in my model customization, which is the final dense layer with 525 with a neurons, one for each class in my classification task of 525 species. 
+`outputs=output` defines the output of the new model to be from the last layer I added in my model customization, which is the final dense layer with 75 with a neurons, one for each class in my classification task of 75 species. 
 
 By doing this, I've created a custom model that combines the feature extraction capabilities of the pre-trained model with the custom layers of my specific classification task. 
 
 
 ## Transfer Learning Accuracy
-My transfer learning model accuracy was 83%, which is not as good as my base CNN model. In addition, the test accuracy was about 30% higher than train accuracy, which indicates the model is overfitting to training data. 
+My transfer learning model accuracy was between 99% and 100%, which is much better than my base CNN model. I can conclude that EfficientNet's pre-trained layers are excellent for my classification task.
 
 
  ## Next Steps
-To optimize my transfer learning model and reduce overfitting, I will add regularization, do more hyperparameter tuning, use cross-validation, and use emsemble methods. I would also like to compare accuracy scores when passing in grayscale images vs colour, and transparent no-background images vs. images with backgrounds. Once the model is optimized, I'd like to load it into my web app.
+I would like to compare accuracy scores when passing in grayscale images vs colour, and transparent no-background images vs. images with backgrounds. Once the model is optimized, I'd like to load it into my web app.
 
-For the web app, I'd like to provide more feedback on classification result on my Streamlit app, such as the model's second or third choices for classification.  I would also like to download the necessary prerequisits to use tensorflow-gpu for model training. 
+For the web app, I'd like to provide more feedback on classification result on my Streamlit app, such as the model's second or third choices for classification. 
 
 
 ## Learnings
