@@ -99,7 +99,7 @@ def predict(_image, _model):
 def main():
     st.title('Bird Species Classifier')
     st.markdown("Larissa Huang - BrainStation Data Science Capstone Project.")
-    st.subheader("Either select an image or scroll down to upload your own image, then click the 'Classify' button.")
+    st.subheader("Either select an image from these unseen test set samples or scroll down to upload your own image, then click the 'Classify' button.")
     st.markdown("The model will predict the bird's species and return its degree of confidence.")
     
     #load model
