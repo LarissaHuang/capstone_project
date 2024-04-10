@@ -103,7 +103,7 @@ def main():
     st.markdown("The model will predict the bird's species and return its degree of confidence.")
     
     #load model
-    _model = load_model('Streamlit/hi-acc.h5')
+    
     # Load the CSV file
     file_paths = "Sprint_4/df_test_75_streamlit.csv"
     df = pd.read_csv(file_paths)
@@ -147,14 +147,15 @@ def main():
         _image = Image.open(file_uploaded)
         st.image(_image, caption='Uploaded Image', use_column_width=True)
 
+    model = load_model('hi-acc.h5')
     # Classify button
     if st.button("Classify"):
         if img is None:
             st.write("Please upload an image to classify.")
         else:
             with st.spinner('Classifying...'):
-                if _model is not None:
-                    predictions = predict(_image, _model)
+                if model is not None:
+                    predictions = predict(_image, model)
                     st.success('Classification complete!')
                     st.write(predictions)
 
