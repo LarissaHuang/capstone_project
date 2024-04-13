@@ -192,10 +192,18 @@ The base CNN model does the best at predicting Warblers and the worst at predict
 
  # Base Model Conclusion
  The base model is incorrectly predicting images based on the predicted species having similar colour, size, and pattern to the true species. The model may be too simple for this classification task, so I want to compare its results to a more sophisticated pretrained model.
-
+ 
 
 ## Transfer Learning with EfficientNetB0
-To improve my model and to widen the scope to include 75 species in my data set, I decided to implement transfer learning with a pre-trained CNN. I chose EfficientNetB0 because of its high accuracy and relatively small size. After importing `EfficientNetB0` from tensorflow.keras.appplications, I applied the following arguments: 
+To improve my model and to widen the scope to include 75 species in my data set, I decided to implement transfer learning, which involves taking a neural network model that has been previously trained on one dataset and tweaking it to work with a new dataset. 
+
+<div style="background-color: white; padding: 10px;">
+<img src="README-images/transfer learning.png" alt="Transfer Learning diagram">
+</div>
+
+
+
+I chose EfficientNetB0 as my pretrained neural network because of its high accuracy and relatively small size. After importing `EfficientNetB0` from tensorflow.keras.appplications, I applied the following arguments: 
 
 ```weights='imagenet' ```
 Using pre-trained weights allows the model to leverage knowledge gained from a large and diverse dataset, which can improve performance on my classification task. 
@@ -221,12 +229,14 @@ for layer in eff_model.layers:
 ```
 
 Then, I added custom Dense or fully-connected layers to tailor the model for my dataset.
-
 ```
-x = eff_model.output # Gets the output from the pre-trained eff_model, which will be passed as input to the next layers
-x = Dense(1024, activation='relu')(x) # Dense layer added here, with 1024 neurons to the model
-x = Dropout(0.3)(x)  # Dropout layer added here, with a dropout rate of 0.3
-output = Dense(75, activation='softmax')(x)  # Final dense layer with units for output
+
+x = Dense(128, activation='relu')(pretrained_model.output) # Dense layer added here, with 128 neurons to the model, taking in the pretrained model's output as input
+x = Dropout(0.45)(x)  # Dropout layer added here, with a dropout rate of 0.45
+x = Dense(256, activation='relu')(x)
+x = Dropout(0.45)(x) # Dropout layer added here, with a dropout rate of 0.45
+
+outputs = Dense(75, activation='softmax')(x) # Final output layer with 75 neurons for each of my classes
 
 ```
 
@@ -244,9 +254,22 @@ eff_model = Model(inputs=eff_model.input, outputs=output)
 
 By doing this, I've created a custom model that combines the feature extraction capabilities of the pre-trained model with the custom layers of my specific classification task. 
 
+## Visualize classes
+Below is a sampling of the images the model was trained on 
+<div style="background-color: white; padding: 10px;">
+<img src="README-images/species-visual.png" alt="visuals of species">
+</div>
+
 
 ## Transfer Learning Accuracy
 My transfer learning model accuracy was between 99% and 100%, which is much better than my base CNN model. I can conclude that EfficientNet's pre-trained layers are excellent for my classification task.
+
+
+## Saliency maps
+Saliency maps show which image features were crucial for the model
+<div style="background-color: white; padding: 10px;">
+<img src="README-images/Saliency-maps.png" alt="saliency maps">
+</div>
 
 
  ## Next Steps
