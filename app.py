@@ -7,6 +7,11 @@ from keras.models import load_model
 import pandas as pd
 from streamlit_image_select import image_select
 
+@st.cache_resource
+def load_my_model():
+    return load_model('hi-acc.h5')
+model = load_my_model()
+
 def predict(_image, _model):
     # Convert image to RGB
     if _image.mode != 'RGB':
@@ -146,8 +151,8 @@ def main():
     if file_uploaded is not None:
         _image = Image.open(file_uploaded)
         st.image(_image, caption='Uploaded Image', use_column_width=True)
-
-    model = load_model('hi-acc.h5')
+        
+   
     # Classify button
     if st.button("Classify"):
         if img is None:
