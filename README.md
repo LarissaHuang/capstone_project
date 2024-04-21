@@ -116,9 +116,7 @@ For a simple proof of concept, I decided to simplify my dataset by merging speci
 </table>
 
 ### Optimized Transfer Learning Model
-For my transfer learning model, I decided to give up genus in favour of species, and widened my scope to 75 species, selecting those with the greatest image count. I copied these images into new folders called `train-75`, `valid-75`, and `test-75` within the Sprint 4 directory. I also saved the image file path and the species of these into csv files: '`df_train_75.csv` and so on. Here is a visualization of some of the 75 species:
-
-![75 species visual](images/75-species-visual.png)
+For my transfer learning model, I decided to give up genus in favour of species, and widened my scope to 75 species, selecting those with the greatest image count. I copied these images into new folders called `train-75`, `valid-75`, and `test-75` within the Sprint 4 directory. I also saved the image file path and the species of these into csv files: '`df_train_75.csv` and so on. 
  
 
 ## Project Flowchart
